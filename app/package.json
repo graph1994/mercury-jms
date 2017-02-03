@@ -1,0 +1,16 @@
+{
+  "name": "mercury-jms",
+  "version": "0.0.0",
+  "description": "Project using Vuejs/Electron to send JMS messages to a endpoint",
+  "main": "./dist/main.js",
+  "dependencies": {
+    "stomp-client": "^0.8.1",
+    "vue": "^2.1.10",
+    "vue-electron": "^1.0.6",
+    "vue-resource": "^1.0.3",
+    "vue-router": "^2.1.2",
+    "vuex": "^2.1.1"
+  },
+  "devDependencies": {},
+  "author": "kgraff <kgraff@gsgenetics.com>"
+}

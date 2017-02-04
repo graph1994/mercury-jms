@@ -28,17 +28,19 @@
         <option value="/topic">Topic</option>
       </select>
     </div>
-    <div class="">
+    <div>
       <span>Endpoint Name</span>
       <input type="text" name="" value="" v-model="connection.endpoint">
     </div>
-    <div class="">
-      <span>Header Name</span>
-      <input type="text" name="" value="" v-model="connection.headerName">
-    </div>
-    <div class="">
-      <span>Header Value</span>
-      <input type="text" name="" value="" v-model="connection.headerValue">
+    <div v-for="header in connection.headerValues" class="">
+      <div>
+        <span>Header Name</span>
+        <input type="text" name="" value="" v-model="header.headerName">
+      </div>
+      <div>
+        <span>Header Value</span>
+        <input type="text" name="" value="" v-model="header.headerValues">
+      </div>
     </div>
     <div class="">
       <span>Message Body</span>
@@ -53,7 +55,9 @@
   export default {
     data() {
       return {
-        connection: {},
+        connection: {
+          headerValues: [{}]
+        },
       };
     },
     created() {
@@ -82,19 +86,20 @@
             'heart-beat': '5000,5000',
           },
         };
-        console.log(connectOptions);
+
         stompit.connect(connectOptions, (error, client) => {
           if (error) {
 
             console.log('connect error ' + error.message);
             return;
           }
+
           const headerName = (c.headerName || 'messageType');
-          const msgBody = (c.msgBody || '{"messageType":"ORDER_STATUS","patientPortalID":"B47B7319-E60A-493E-AFC9-6028B710E96F","gsgMrnID":"GMR199573","orderStatus":"NO_ORDER"}');
+          const msgBody = (c.msgBody || '{"message": "test"}');
         	const sendHeaders = {
-        	    'destination': '/topic/VirtualTopic.training.Portal' || destination,
+        	    'destination': destination || '/queue/test',
         	    'content-type': 'text/plain',
-        	    'messageType' : 'ORDER_STATUS'
+              // Add expanding list of custom header fields here
         	};
 
         	var frame = client.send(sendHeaders);

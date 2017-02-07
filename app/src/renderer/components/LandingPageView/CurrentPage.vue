@@ -33,14 +33,14 @@
       <input type="text" name="" value="" v-model="connection.endpoint">
     </div>
     <div v-for="header in connection.headerValues" class="">
-      <div>
         <span>Header Name</span>
         <input type="text" name="" value="" v-model="header.headerName">
-      </div>
-      <div>
         <span>Header Value</span>
-        <input type="text" name="" value="" v-model="header.headerValues">
-      </div>
+        <input type="text" name="" value="" v-model="header.headerValue">
+        <span class="remove-btn" @click="removeHeader(header.headerValue)"> - </span>
+    </div>
+    <div class="add-btn" @click="addHeader">
+      +
     </div>
     <div class="">
       <span>Message Body</span>
@@ -56,7 +56,7 @@
     data() {
       return {
         connection: {
-          headerValues: [{}]
+          headerValues: [{}],
         },
       };
     },
@@ -70,7 +70,13 @@
       }
     },
     methods: {
-                /* eslint-disable */
+      addHeader() {
+        this.connection.headerValues.push({});
+      },
+      removeHeader(headerVal) {
+        this.connection.headerValues.splice(this.connection.headerValues.indexOf(headerVal), 1);
+      },
+      /* eslint-disable */
       createConnection() {
         const c = this.connection;
         console.log('test');
@@ -97,11 +103,14 @@
           const headerName = (c.headerName || 'messageType');
           const msgBody = (c.msgBody || '{"message": "test"}');
         	const sendHeaders = {
+            //default header fields
         	    'destination': destination || '/queue/test',
         	    'content-type': 'text/plain',
-              // Add expanding list of custom header fields here
         	};
-
+          // Add custom headers before sending
+          for(item in c.headerValues) {
+            c.hederValues[item.headerName] = item.headerValues;
+          }
         	var frame = client.send(sendHeaders);
         	frame.write(msgBody);
         	frame.end();
@@ -134,6 +143,7 @@
         	    });
             });
       },
+      /* eslint-enable */
     },
   };
 </script>
@@ -148,6 +158,13 @@
     margin: 0 3px;
     vertical-align: bottom;
   }
-
+  .remove-btn {
+    font-size: 24pt;
+    color: red;
+  }
+  .add-btn {
+    font-size: 24pt;
+    color: green;
+  }
   p { line-height: 24px; }
 </style>

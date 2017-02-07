@@ -75,7 +75,7 @@
         const c = this.connection;
         console.log('test');
         // Build destination string
-        const destination = `/${c.topic}/${c.endpoint}`;
+        const destination = `/${c.type}/${c.endpoint}`;
         const connectOptions = {
           host: (c.host || 'localhost'),
           port: (c.port || '32800'),

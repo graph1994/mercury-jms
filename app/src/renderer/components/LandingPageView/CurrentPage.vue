@@ -79,7 +79,6 @@
       /* eslint-disable */
       createConnection() {
         const c = this.connection;
-        console.log('test');
         // Build destination string
         const destination = `/${c.type}/${c.endpoint}`;
         const connectOptions = {
@@ -114,9 +113,8 @@
         	var frame = client.send(sendHeaders);
         	frame.write(msgBody);
         	frame.end();
-          console.log(sendHeaders,msgBody);
         	var subscribeHeaders = {
-        	    'destination': '/topic/VirtualTopic.training.Portal',
+        	    'destination': destination ,
         	    'ack': 'client-individual'
         	};
 

@@ -1,6 +1,6 @@
 
 
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, Menu } from 'electron';
 
 let mainWindow;
 const winURL = process.env.NODE_ENV === 'development'
@@ -15,6 +15,43 @@ function createWindow() {
     height: 600,
     width: 800,
   });
+
+  // Add abilty to have edit features
+  const template = [
+  {
+    label: 'Edit',
+    submenu: [
+      {
+        role: 'undo'
+      },
+      {
+        role: 'redo'
+      },
+      {
+        type: 'separator'
+      },
+      {
+        role: 'cut'
+      },
+      {
+        role: 'copy'
+      },
+      {
+        role: 'paste'
+      },
+      {
+        role: 'pasteandmatchstyle'
+      },
+      {
+        role: 'delete'
+      },
+      {
+        role: 'selectall'
+      }
+    ]
+  }
+  ];
+  Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 
   mainWindow.loadURL(winURL);
 

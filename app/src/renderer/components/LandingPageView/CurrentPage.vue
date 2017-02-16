@@ -1,25 +1,22 @@
 <template>
 
-  <div class="">
-    <!-- <p>
-      You are currently at <code>`{{ $route.path }}`</code> on the <code>`{{ $route.name }}`</code> view.
-    </p> -->
+  <div>
     <h2>Connection</h2>
     <div class="">
       <span>Host</span>
-      <input type="text" name="" value="" v-model="connection.host">
+      <input type="text" name="" value="" v-model="connection.host" :placeholder="placeholderValues.host">
     </div>
     <div class="">
       <span>Port</span>
-      <input type="text" name="" value="" v-model="connection.port">
+      <input type="text" name="" value="" v-model="connection.port" :placeholder="placeholderValues.port">
     </div>
     <div class="">
       <span>Login Username</span>
-      <input type="text" name="" value="" v-model="connection.login">
+      <input type="text" name="" value="" v-model="connection.login" :placeholder="placeholderValues.login">
     </div>
     <div class="">
       <span>Login Password</span>
-      <input type="text" name="" value="" v-model="connection.passcode">
+      <input type="text" name="" value="" v-model="connection.passcode" :placeholder="placeholderValues.passcode">
     </div>
     <div class="">
       <span>Topic or Queue</span>
@@ -30,7 +27,7 @@
     </div>
     <div>
       <span>Endpoint Name</span>
-      <input type="text" name="" value="" v-model="connection.endpoint">
+      <input type="text" name="" value="" v-model="connection.endpoint" :placeholder="placeholderValues.endpoint">
     </div>
     <div v-for="header in connection.headerValues" class="">
         <span>Header Name</span>
@@ -40,11 +37,11 @@
         <span class="remove-btn" @click="removeHeader(header.headerValue)"> - </span>
     </div>
     <div class="add-btn" @click="addHeader">
-      +
+      + Header Field
     </div>
     <div class="">
       <span>Message Body</span>
-      <textarea name="name" rows="4" cols="30" v-model="connection.msgBody"></textarea>
+      <textarea name="name" rows="4" cols="30" v-model="connection.msgBody" :placeholder="placeholderValues.msgBody"></textarea>
     </div>
     <button type="button" name="button" @click="createConnection">Send</button>
   </div>
@@ -57,6 +54,14 @@
       return {
         connection: {
           headerValues: [{}],
+        },
+        placeholderValues: {
+          host: 'localhost',
+          port: '61613',
+          login: 'admin',
+          passcode: 'admin',
+          endpoint: 'test',
+          msgBody: '{"message": "test"}',
         },
       };
     },
@@ -79,15 +84,16 @@
       /* eslint-disable */
       createConnection() {
         const c = this.connection;
+        const placeholder = this.placeholderValues;
         // Build destination string
         const destination = `/${c.type}/${c.endpoint}`;
         const connectOptions = {
-          host: (c.host || 'localhost'),
-          port: (c.port || '32800'),
+          host: (c.host || placeholder.host),
+          port: (c.port || placeholder.port),
           connectHeaders: {
             host: '/',
-            login: (c.login || 'admin'),
-            passcode: (c.passcode || 'admin'),
+            login: (c.login || placeholder.login),
+            passcode: (c.passcode || placeholder.passcode),
             'heart-beat': '5000,5000',
           },
         };
@@ -100,15 +106,15 @@
           }
 
           const headerName = (c.headerName || 'messageType');
-          const msgBody = (c.msgBody || '{"message": "test"}');
+          const msgBody = (c.msgBody || placeholder.msgBody);
         	const sendHeaders = {
             //default header fields
-        	    'destination': destination || '/queue/test',
+        	    'destination': destination || placeholder.endpoint,
         	    'content-type': 'text/plain',
         	};
           // Add custom headers before sending
           for(item in c.headerValues) {
-            c.hederValues[item.headerName] = item.headerValues;
+            c.headerValues[item.headerName] = item.headerValues;
           }
         	var frame = client.send(sendHeaders);
         	frame.write(msgBody);

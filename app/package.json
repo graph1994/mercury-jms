@@ -9,7 +9,8 @@
     "vue-electron": "^1.0.6",
     "vue-resource": "^1.0.3",
     "vue-router": "^2.1.2",
-    "vuex": "^2.1.1"
+    "vuex": "^2.1.1",
+    "webstomp-client": "^1.0.6"
   },
   "devDependencies": {},
   "author": "kgraff <kgraff@gsgenetics.com>"

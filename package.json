@@ -54,7 +54,7 @@
       ]
     }
   },
-  "author": "Greg Holguin <simulatedgreg@gmail.com>",
+  "author": "Kurt Graff <graff1994@gmail.com>",
   "license": "MIT",
   "devDependencies": {
     "babel-core": "^6.8.0",

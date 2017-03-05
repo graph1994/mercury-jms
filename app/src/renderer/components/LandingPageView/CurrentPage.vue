@@ -44,6 +44,9 @@
       <textarea name="name" rows="4" cols="30" v-model="connection.msgBody" :placeholder="placeholderValues.msgBody"></textarea>
     </div>
     <button type="button" name="button" @click="createConnection">Send</button>
+    <b-alert :show="error != null" state="danger">
+      Error Connecting: {{ error }}
+    </b-alert>
   </div>
 </template>
 
@@ -52,6 +55,7 @@
   export default {
     data() {
       return {
+        error: null,
         connection: {
           headerValues: [{}],
         },
@@ -102,6 +106,7 @@
           if (error) {
 
             console.log('connect error ' + error.message);
+            this.error = error.message;
             return;
           }
 
@@ -124,27 +129,27 @@
         	    'ack': 'client-individual'
         	};
 
-        	client.subscribe(subscribeHeaders, function(error, message) {
-
-        		if (error) {
-        		    console.log('subscribe error ' + error.message);
-        		    return;
-        		}
-
-        		message.readString('utf-8', function(error, body) {
-
-        			if (error) {
-        			    console.log('read message error ' + error.message);
-        			    return;
-        			}
-
-        			console.log('received message: ' + body);
-
-        			client.ack(message);
-
-        			client.disconnect();
-        		    });
-        	    });
+        	// client.subscribe(subscribeHeaders, function(error, message) {
+          //
+        	// 	if (error) {
+        	// 	    console.log('subscribe error ' + error.message);
+        	// 	    return;
+        	// 	}
+          //
+        	// 	message.readString('utf-8', function(error, body) {
+          //
+        	// 		if (error) {
+        	// 		    console.log('read message error ' + error.message);
+        	// 		    return;
+        	// 		}
+          //
+        	// 		console.log('received message: ' + body);
+          //
+        	// 		client.ack(message);
+          //
+        	// 		client.disconnect();
+        	// 	    });
+        	//     });
             });
       },
       /* eslint-enable */

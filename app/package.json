@@ -4,6 +4,7 @@
   "description": "Project using Vuejs/Electron to send JMS messages to a endpoint",
   "main": "./dist/main.js",
   "dependencies": {
+    "bootstrap": "^4.0.0-alpha.6",
     "stomp-client": "^0.8.1",
     "vue": "^2.1.10",
     "vue-electron": "^1.0.6",

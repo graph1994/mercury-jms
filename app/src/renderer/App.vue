@@ -1,20 +1,23 @@
 <template>
   <div id="#app">
+    <header-view></header-view>
     <router-view></router-view>
-    <div>
-      Test
-    </div>
   </div>
 </template>
 
 <script>
   import store from 'renderer/vuex/store';
+  import HeaderView from 'components/Header.vue';
   export default {
     store,
+    components: {
+      HeaderView,
+    },
   };
 </script>
 
 <style>
+
   @import url(https://fonts.googleapis.com/css?family=Lato:300);
 
   * {
@@ -23,7 +26,8 @@
   }
 
   html,
-  body { height: 100%; }
+  body,
+  #app { height: 100%; }
 
   body {
     align-items: center;
@@ -34,7 +38,6 @@
         rgba(229, 229, 229, .85) 100%
       );
     background-position: center;
-    display: flex;
     font-family: Lato, Helvetica, sans-serif;
     justify-content: center;
     text-align: center;
